@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block title %}gestion de la production terminée{% endblock %}
+{% block script %}finishedproduction.js
+{% endblock %}
+{% block title1 %}Production terminée{% endblock %}
+{% block title2 %}Liste de la production terminée{% endblock %}
+{% block title3 %}Liste de la production terminée{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                <h6>Liste de la production terminée</h6>
+                {% if 'nassib.add_finishedproduction' in user.get_all_permissions %}
+                <div class="d-flex justify-content-between align-items-center"> 
+                    <a href="{% url 'add_finishedproduction'%}" class="btn btn-primary">
+                        <i class="fas fa-plus-circle"></i> Ajouter
+                    </a> 
+                </div>  
+                {% endif %}             
+            </div>              
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0 custom-table">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Référence</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Agence</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Production</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prix moyen</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantité</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Motant total</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Compte à débiter</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Montant à débiter</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Compte à créditer</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Montant à créditer</th>
+                      {% if 'nassib.delete_finishedproduction' in user.get_all_permissions %}
+                      <th class="text-secondary opacity-7"></th>
+                      {% endif %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for finishedproduction in finishedproductions %}
+                    <tr>
+                        <td class="custom-td">
+                            <span class="text-secondary text-sm font-weight-bold">{{ finishedproduction.date|date:"d F Y" }}</span>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ finishedproduction.reference }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ finishedproduction.agency }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ finishedproduction.product }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ finishedproduction.selling_price }} KMF</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ finishedproduction.quantity }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ finishedproduction.total_amount }} KMF</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ finishedproduction.debit_account }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ finishedproduction.debit_amount }} KMF</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ finishedproduction.credit_account }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ finishedproduction.credit_amount }} KMF</h6>
+                        </td>
+                        {% if 'nassib.delete_finishedproduction' in user.get_all_permissions %}
+                        <td class="custom-td custom-space">
+                            {% if 'nassib.delete_finishedproduction' in user.get_all_permissions %}
+                            <a href="javascript:;" class="text-danger font-weight-bold text-sm delete" data-id="{{ finishedproduction.id }}" data-toggle="tooltip">
+                                <i class="fas fa-trash fixed-plugin-button-nav cursor-pointer"></i>
+                            </a>
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% empty %}
+                      <tr>
+                        <td colspan="5" class="text-center">Aucune donnée disponible</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {% if finishedproductions.has_other_pages %}
+            <div class="dataTable-bottom">
+              <nav class="dataTable-pagination">
+                <ul class="dataTable-pagination-list">
+                  {% if finishedproductions.has_previous %}
+                  <li class="pager"><a href="?page={{ finishedproductions.previous_page_number }}">‹</a></li>
+                  {% endif %}
+                  {% for num in finishedproductions.paginator.page_range %}
+                  {% if finishedproductions.number == num %}
+                  <li class="active"><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% elif num > finishedproductions.number|add:'-5' and num < finishedproductions.number|add:'5' %}
+                  <li class=""><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                  {% if finishedproductions.has_next %}
+                  <li class="pager"><a href="?page={{ finishedproductions.next_page_number }}">›</a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+            {% endif %}
+          </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+

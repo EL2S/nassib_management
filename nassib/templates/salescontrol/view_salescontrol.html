@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% block title %}gestion du contrôle des ventes{% endblock %}
+{% block script %}salescontrol.js
+{% endblock %}
+{% block title1 %}Contrôle vente{% endblock %}
+{% block title2 %}Liste de contrôle des ventes{% endblock %}
+{% block title3 %}Liste de contrôle des ventes{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                <h6>Liste de contrôle des ventes</h6>
+                {% if 'nassib.add_salescontrol' in user.get_all_permissions %}
+                <div class="d-flex justify-content-between align-items-center"> 
+                    <a href="{% url 'add_salescontrol'%}" class="btn btn-primary">
+                        <i class="fas fa-plus-circle"></i> Ajouter
+                    </a> 
+                </div>  
+                {% endif %}             
+            </div>              
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0 custom-table">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Agence</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Solde de départ</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Vente effectuée</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Vente à crédit</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Donation</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Produit abîmé</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stock de clôture</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total dû</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Encaissement en espèces</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total des encaissements</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Écart d'encaissement</th>
+                      {% if 'nassib.delete_salescontrol' in user.get_all_permissions %}
+                      <th class="text-secondary opacity-7"></th>
+                      {% endif %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for salescontrol in salescontrols %}
+                    <tr>
+                        <td class="custom-td">
+                            <span class="text-secondary text-sm font-weight-bold">{{ salescontrol.date|date:"d F Y" }}</span>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ salescontrol.agency }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ salescontrol.opening_balance }} KMF</h6>
+                        </td>
+                        <td class="custom-td">
+                          <h6 class="text-sm font-weight-bold mb-0">{{ salescontrol.sales_made }} KMF</h6>
+                        </td>
+                        <td class="custom-td">
+                          <h6 class="text-sm font-weight-bold mb-0">{{ salescontrol.credit_sales }} KMF</h6>
+                        </td>
+                        <td class="custom-td">
+                          <h6 class="text-sm font-weight-bold mb-0">{{ salescontrol.donation }} KMF</h6>
+                        </td>
+                        <td class="custom-td">
+                          <h6 class="text-sm font-weight-bold mb-0">{{ salescontrol.domaged_goods }} KMF</h6>
+                        </td>
+                        <td class="custom-td">
+                          <h6 class="text-sm font-weight-bold mb-0">{{ salescontrol.closing_stock }} KMF</h6>
+                        </td>
+                        <td class="custom-td">
+                          <h6 class="text-sm font-weight-bold mb-0">{{ salescontrol.total_due }} KMF</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ salescontrol.cash_collection }} KMF</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ salescontrol.total_collection }} KMF</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ salescontrol.collection_difference }} KMF</h6>
+                        </td>
+                        
+                        {% if 'nassib.delete_salescontrol' in user.get_all_permissions %}
+                        <td class="custom-td custom-space">
+                            {% if 'nassib.delete_salescontrol' in user.get_all_permissions %}
+                            <a href="javascript:;" class="text-danger font-weight-bold text-sm delete" data-id="{{ salescontrol.id }}" data-toggle="tooltip">
+                                <i class="fas fa-trash fixed-plugin-button-nav cursor-pointer"></i>
+                            </a>
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% empty %}
+                      <tr>
+                        <td colspan="5" class="text-center">Aucune donnée disponible</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {% if salescontrols.has_other_pages %}
+            <div class="dataTable-bottom">
+              <nav class="dataTable-pagination">
+                <ul class="dataTable-pagination-list">
+                  {% if salescontrols.has_previous %}
+                  <li class="pager"><a href="?page={{ salescontrols.previous_page_number }}">‹</a></li>
+                  {% endif %}
+                  {% for num in salescontrols.paginator.page_range %}
+                  {% if salescontrols.number == num %}
+                  <li class="active"><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% elif num > salescontrols.number|add:'-5' and num < salescontrols.number|add:'5' %}
+                  <li class=""><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                  {% if salescontrols.has_next %}
+                  <li class="pager"><a href="?page={{ salescontrols.next_page_number }}">›</a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+            {% endif %}
+          </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block title %}gestion des comptes OHADA{% endblock %}
+{% block script %}account.js
+{% endblock %}
+{% block title1 %}Compte OHADA{% endblock %}
+{% block title2 %}Liste des comptes OHADA{% endblock %}
+{% block title3 %}Liste des comptes OHADA{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                <h6>Liste des comptes OHADA</h6>
+                {% if 'nassib.add_account' in user.get_all_permissions %}
+                <div class="d-flex justify-content-between align-items-center"> 
+                    <a href="{% url 'add_account'%}" class="btn btn-primary">
+                        <i class="fas fa-plus-circle"></i> Ajouter
+                    </a> 
+                    <a href="{% url 'import_account'%}" class="btn btn-secondary ms-3">
+                        <i class="fas fa-file-excel"></i> Impoter
+                    </a> 
+                </div>  
+                {% endif %}             
+            </div>              
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0 custom-table">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Compte</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Libelle</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Famille</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Classe</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Code_OHADA</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Note</th>
+                      {% if 'nassib.change_account' in user.get_all_permissions or 'nassib.delete_account' in user.get_all_permissions %}
+                      <th class="text-secondary opacity-7"></th>
+                      {% endif %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for account in accounts %}
+                    <tr>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ account.account }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ account.Label }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ account.family }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ account.classe }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ account.OHADA_Code }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ account.note }}</h6>
+                        </td>
+                        {% if 'nassib.change_account' in user.get_all_permissions or 'nassib.delete_account' in user.get_all_permissions %}
+                        <td class="custom-td custom-space">
+                            {% if 'nassib.change_account' in user.get_all_permissions%}
+                            <a href="{% url 'change_account' account.id %}" class="text-success font-weight-bold text-sm me-2" data-toggle="tooltip">
+                                <i class="fas fa-edit fixed-plugin-button-nav cursor-pointer"></i>
+                            </a>
+                            {% endif %}
+                            {% if 'nassib.delete_account' in user.get_all_permissions %}
+                            <a href="javascript:;" class="text-danger font-weight-bold text-sm delete" data-id="{{ account.id }}" data-toggle="tooltip">
+                                <i class="fas fa-trash fixed-plugin-button-nav cursor-pointer"></i>
+                            </a>
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% empty %}
+                      <tr>
+                        <td colspan="5" class="text-center">Aucune donnée disponible</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {% if accounts.has_other_pages %}
+            <div class="dataTable-bottom">
+              <nav class="dataTable-pagination">
+                <ul class="dataTable-pagination-list">
+                  {% if accounts.has_previous %}
+                  <li class="pager"><a href="?page={{ accounts.previous_page_number }}">‹</a></li>
+                  {% endif %}
+                  {% for num in accounts.paginator.page_range %}
+                  {% if accounts.number == num %}
+                  <li class="active"><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% elif num > accounts.number|add:'-5' and num < accounts.number|add:'5' %}
+                  <li class=""><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                  {% if accounts.has_next %}
+                  <li class="pager"><a href="?page={{ accounts.next_page_number }}">›</a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+            {% endif %}
+          </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+

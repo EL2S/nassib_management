@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block title %}stock agence{% endblock %}
+{% block script %}stockagency.js
+{% endblock %}
+{% block title1 %}Stock{% endblock %}
+{% block title2 %}Stock agence{% endblock %}
+{% block title3 %}Stock agence{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0 d-flex justify-content-center align-items-center">
+              <div class="col-12 col-md-12">
+                <div class="row">
+                  <h6 class="col-7 col-md-7">Stock agence</h6>
+                  <form class="col-5 col-md-5 mb-3" method="POST" id="agency-form">
+                    {% csrf_token %}
+                    <select class="form-select" name="agency" id="agency" onchange="this.form.submit()">
+                        <option value="" {% if not selected_agency %}selected{% endif %} disabled>Sélectionnez une agence</option>
+                        {% for agency in agencies %}
+                            <option value="{{ agency.agency }}" {% if agency.agency == selected_agency %}selected{% endif %}>{{ agency.agency }}</option>
+                        {% empty %}
+                            <option value="">Aucune agence disponible</option>
+                        {% endfor %}
+                    </select>
+                  </form>                
+                </div>
+              </div>
+            </div>              
+            <div class="card-body px-0 pt-0 pb-2">
+                <div class="table-responsive p-0">
+                  <table class="table align-items-center mb-0 custom-table">
+                    <thead>
+                      <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 custom-th">Agence</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 custom-th">Ingredient</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 custom-th">Quantité</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 custom-th">Entrée de stock</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 custom-th">Sortie de stock</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 custom-th">Dernière mise à jour</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for stockagency in stockagencies %}
+                      <tr>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ stockagency.agency }}</h6>
+                          </td>
+                        <td class="custom-td">
+                          <h6 class="text-sm font-weight-bold mb-0">{{ stockagency.ingredient }}</h6>
+                        </td>
+                        <td class="custom-td">
+                          <h6 class="text-sm font-weight-bold mb-0">{{ stockagency.quantity }}</h6>
+                        </td>
+                        <td class="custom-td">
+                          <h6 class="text-sm font-weight-bold mb-0">{{ stockagency.stock_in }}</h6>
+                        </td>
+                        <td class="custom-td">
+                          <h6 class="text-sm font-weight-bold mb-0">{{ stockagency.stock_out }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ stockagency.last_update_date|date:"d F Y à H:i" }}</h6>
+                          </td>
+                      </tr>
+                      {% empty %}
+                      <tr>
+                        <td colspan="5" class="text-center">Aucune donnée disponible</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>              
+            {% if stockagencies.has_other_pages %}
+            <div class="dataTable-bottom">
+              <nav class="dataTable-pagination">
+                <ul class="dataTable-pagination-list">
+                  {% if stockagencies.has_previous %}
+                  <li class="pager"><a href="?page={{ stockagencies.previous_page_number }}">‹</a></li>
+                  {% endif %}
+                  {% for num in stockagencies.paginator.page_range %}
+                  {% if stockagencies.number == num %}
+                  <li class="active"><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% elif num > stockagencies.number|add:'-5' and num < stockagencies.number|add:'5' %}
+                  <li class=""><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                  {% if stockagencies.has_next %}
+                  <li class="pager"><a href="?page={{ stockagencies.next_page_number }}">›</a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+            {% endif %}
+          </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+

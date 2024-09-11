@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %}validation des transferts{% endblock %}
+{% block script %}validation.js
+{% endblock %}
+{% block title1 %}Validation{% endblock %}
+{% block title2 %}Validation des transfert{% endblock %}
+{% block title3 %}Validation des transfert{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                <h6>Validation des transferts</h6>
+            </div>              
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0 custom-table">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bénéficiaire</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Initiateur</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ingredient</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantité émise</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantité recu</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Statut</th>
+                      <th class="text-secondary opacity-7"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for transfer in transfers %}
+                    <tr>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ transfer.date|date:"d F Y"  }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ transfer.beneficiary }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ transfer.initiator }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ transfer.ingredient }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ transfer.quantity_issued }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ transfer.quantity_recu }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            {% if transfer.status == "Confirmez" %}
+                            <span class="badge badge-sm bg-gradient-success">{{ transfer.status }}</span>
+                            {% else %}
+                            <span class="badge badge-sm bg-gradient-danger">{{ transfer.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="custom-td custom-space">
+                            <a href="{% url 'validation' transfer.id %}"class="text-primary font-weight-bold text-sm">
+                                <i class="fas fa-truck fixed-plugin-button-nav cursor-pointer"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                      <tr>
+                        <td colspan="5" class="text-center">Aucune donnée disponible</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {% if transfers.has_other_pages %}
+            <div class="dataTable-bottom">
+              <nav class="dataTable-pagination">
+                <ul class="dataTable-pagination-list">
+                  {% if transfers.has_previous %}
+                  <li class="pager"><a href="?page={{ transfers.previous_page_number }}">‹</a></li>
+                  {% endif %}
+                  {% for num in transfers.paginator.page_range %}
+                  {% if transfers.number == num %}
+                  <li class="active"><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% elif num > transfers.number|add:'-5' and num < transfers.number|add:'5' %}
+                  <li class=""><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                  {% if transfers.has_next %}
+                  <li class="pager"><a href="?page={{ transfers.next_page_number }}">›</a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+            {% endif %}
+          </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+

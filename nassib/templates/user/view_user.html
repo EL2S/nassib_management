@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block title %}gestion des utilisateurs{% endblock %}
+{% block script %}user.js
+{% endblock %}
+{% block title1 %}Utilisateur{% endblock %}
+{% block title2 %}Liste des utilisateurs{% endblock %}
+{% block title3 %}Liste des utilisateurs{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                <h6>Liste des utilisateurs</h6>
+                {% if 'auth.add_user' in user.get_all_permissions %}
+                <a href="{% url 'add_user'%}" class="btn btn-primary">
+                  <i class="fas fa-plus-circle"></i> Ajouter
+                </a> 
+                {% endif %}             
+            </div>              
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0 custom-table">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">utilisateur</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nom d'utilisateur</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Statut</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Dernière connection</th>
+                      {% if 'auth.change_user' in user.get_all_permissions or 'auth.delete_user' in user.get_all_permissions %}
+                      <th class="text-secondary opacity-7"></th>
+                      {% endif %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for u in users %}
+                    <tr>
+                      <td class="custom-td">
+                        <div class="d-flex px-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{ u.first_name }} {{ u.last_name }}</h6>
+                            <p class="text-xs text-secondary mb-0">{{ u.email }}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="custom-td">
+                        <h6 class="text-sm font-weight-bold mb-0">{{ u.username }}</h6>
+                      </td>
+                      <td class="custom-td">
+                        {% if u.is_superuser %}
+                        <span class="badge badge-sm bg-gradient-success">Admin</span>
+                        {% else %}
+                        <span class="badge badge-sm bg-gradient-secondary">User</span>
+                        {% endif %}
+                      </td>
+                      <td class="custom-td">
+                        <span class="text-secondary text-sm font-weight-bold">{{ u.last_login|date:"d F Y à H:i" }}</span>
+                      </td>
+                      {% if 'auth.change_user' in user.get_all_permissions or 'auth.delete_user' in user.get_all_permissions %}
+                      <td class="align-middle">
+                        {% if 'auth.change_user' in user.get_all_permissions%}
+                        <a href="{% url 'change_user' u.id %}" class="text-success font-weight-bold text-sm me-2" data-toggle="tooltip">
+                            <i class="fas fa-edit fixed-plugin-button-nav cursor-pointer"></i>
+                        </a>
+                        {% endif %}
+                        {% if 'auth.delete_user' in user.get_all_permissions %}
+                        <a href="javascript:;" class="text-danger font-weight-bold text-sm delete" data-id="{{ u.id }}" data-toggle="tooltip">
+                            <i class="fas fa-trash fixed-plugin-button-nav cursor-pointer"></i>
+                        </a>
+                        {% endif %}
+                      </td>
+                      {% endif %}
+                    </tr>
+                    {% empty %}
+                      <tr>
+                        <td colspan="5" class="text-center">Aucune donnée disponible</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {% if users.has_other_pages %}
+            <div class="dataTable-bottom">
+              <nav class="dataTable-pagination">
+                <ul class="dataTable-pagination-list">
+                  {% if users.has_previous %}
+                  <li class="pager"><a href="?page={{ users.previous_page_number }}">‹</a></li>
+                  {% endif %}
+                  {% for num in users.paginator.page_range %}
+                  {% if users.number == num %}
+                  <li class="active"><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% elif num > users.number|add:'-5' and num < users.number|add:'5' %}
+                  <li class=""><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                  {% if users.has_next %}
+                  <li class="pager"><a href="?page={{ users.next_page_number }}">›</a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+            {% endif %}
+          </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+

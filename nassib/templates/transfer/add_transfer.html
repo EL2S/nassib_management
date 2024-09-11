@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block title %}effectuer une transfert{% endblock %}
+{% block script %}transfer.js
+{% endblock %}
+{% block title1 %}Achat{% endblock %}
+{% block title2 %}Effectuer une transfert{% endblock %}
+{% block title3 %}Effectuer une transfert{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="container-fluid py-4">
+        <div class="row" id="abId0.48152076309116754">
+            <div class="col-lg-9 col-12 mx-auto" id="abId0.12338387730870526">
+                <div class="card card-body mt-4" id="abId0.5321583829375365">
+                    <h6 class="mb-0">Information sur le transfert</h6>
+                    <p class="text-sm mb-0">Information</p>
+                    <hr class="horizontal dark my-3">
+                    {% if error_message %}
+                    <div class="alert alert-danger text-white" role="alert">
+                        {{ error_message }}
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            window.location.href = "{% url 'add_transfer' %}";
+                        }, 5000);
+                    </script>
+                    {% endif %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="date" class="form-label">Date</label>
+                                <input type="date" class="form-control" id="date" name="date" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="no_bl" class="form-label">No. BL</label>
+                                <input type="text" class="form-control" id="no_bl" name="no_bl" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="initiator" class="form-label">Initiateur</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="initiator" id="initiator">
+                                        {% for agency in agencies %}
+                                        <option value="{{agency.agency}}">{{agency.agency }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <input type="text" class="form-control" id="search_initiator" placeholder="Recherchez une initiateur">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="ingredient" class="form-label">Ingredient</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="ingredient" id="ingredient">
+                                        
+                                    </select>
+                                    <input type="text" class="form-control" id="search_ingredient" placeholder="Recherchez une ingredient">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="unit_price" class="form-label">Prix unitaire</label>
+                                <input type="text" class="form-control is-valid" id="unit_price" disabled>
+                                <input type="hidden" class="form-control" id="hiddenunit_price" name="unit_price" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="quantity_issued" class="form-label">Quantité émise</label>
+                                <input type="text" class="form-control" id="quantity_issued" name="quantity_issued" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="amount_issue" class="form-label">Montant émise</label>
+                                <input type="text" class="form-control is-valid" id="amount_issue" disabled>
+                                <input type="hidden" class="form-control" id="hiddenamount_issue" name="amount_issue" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="journal" class="form-label">Journal</label>
+                                <select class="form-select" name="journal" id="journal">
+                                    <option value="PRODUCTION">PRODUCTION</option>
+                                    <option value="BANQUE">BANQUE</option>
+                                    <option value="ACHAT">ACHAT</option>
+                                    <option value="CAISSE">CAISSE</option>
+                                    <option value="OD">OD</option>
+                                    <option value="RAN">RAN</option>
+                                    <option value="TRANSFERT">TRANSFERT</option>
+                                    <option value="VENTE">VENTE</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="beneficiary" class="form-label">Bénéficiaire</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="beneficiary" id="beneficiary">
+                                        {% for agency in agencies %}
+                                        <option value="{{agency.agency}}">{{agency.agency }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <input type="text" class="form-control" id="search_beneficiary" placeholder="Recherchez une bénéficiaire">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="status" class="form-label">Statut</label>
+                                <select class="form-select" name="status" id="status">
+                                    <option value="En attente">En attente</option>
+                                    <option value="Confirmez">Confirmez</option>
+                                </select>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="stock_out" class="form-label">Sortie de stock</label>
+                                <input type="text" class="form-control is-valid" id="stock_out" disabled>
+                                <input type="hidden" class="form-control" id="hidden_stock_out" name="stock_out" required>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <a href="{% url 'view_transfer'%}" name="button" class="btn btn-light m-0">Annuler</a>
+                            <button type="submit" name="button" class="btn bg-gradient-primary m-0 ms-2">Sauvegarder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

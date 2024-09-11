@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block title %}ajouter une distribution{% endblock %}
+{% block script %}distribution.js
+{% endblock %}
+{% block title1 %}Distribution{% endblock %}
+{% block title2 %}Ajouter une distribution{% endblock %}
+{% block title3 %}Ajouter une distribution{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="container-fluid py-4">
+        <div class="row" id="abId0.48152076309116754">
+            <div class="col-lg-9 col-12 mx-auto" id="abId0.12338387730870526">
+                <div class="card card-body mt-4" id="abId0.5321583829375365">
+                    <h6 class="mb-0">Information sur la distribution</h6>
+                    <p class="text-sm mb-0">Information</p>
+                    <hr class="horizontal dark my-3">
+                    {% if error_message %}
+                    <div class="alert alert-danger text-white" role="alert">
+                        {{ error_message }}
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            window.location.href = "{% url 'add_distribution' %}";
+                        }, 5000);
+                    </script>
+                    {% endif %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="date" class="form-label">Date</label>
+                                <input type="date" class="form-control" id="date" name="date" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="batch_no" class="form-label">Numéro de lot</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="batch_no" id="batch_no">
+
+                                    </select>
+                                    <input type="text" class="form-control" id="search_batch_no" placeholder="Recherchez une numéro de lot">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="initiator" class="form-label">Initiateur</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="initiator" id="initiator">
+
+                                    </select>
+                                    <input type="text" class="form-control" id="search_initiator" placeholder="Recherchez une inititeur">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="product" class="form-label">Produit</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="product" id="product">
+
+                                    </select>
+                                    <input type="text" class="form-control" id="search_product" placeholder="Recherchez une produit">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="agency" class="form-label">Agence</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="agency" id="agency">
+                                        {% for agency in agencies %}
+                                        <option value="{{agency.agency}}">{{agency.agency }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <input type="text" class="form-control" id="search_agency" placeholder="Recherchez une agence">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="quantity_sold" class="form-label">Quantité vendue</label>
+                                <input type="text" class="form-control" id="quantity_sold" name="quantity_sold" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="selling_price" class="form-label">Prix de vente</label>
+                                <input type="text" class="form-control is-valid" id="selling_price" disabled>
+                                <input type="hidden" class="form-control" id="hidden_selling_price" name="selling_price" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="total_production" class="form-label">Production totale</label>
+                                <input type="text" class="form-control is-valid" id="total_production" disabled>
+                                <input type="hidden" class="form-control" id="hidden_total_production" name="total_production" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="sale_value" class="form-label">Valeur de vente</label>
+                                <input type="text" class="form-control is-valid" id="sale_value" disabled>
+                                <input type="hidden" class="form-control" id="hidden_sale_value" name="sale_value" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="total_quantity_sold_to_date" class="form-label">Quantité totale vendue à ce jour</label>
+                                <input type="text" class="form-control is-valid" id="total_quantity_sold_to_date" value="{{ total_stock_out }}" disabled>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="total_remaining_to_be_sold" class="form-label">Total restant à vendre</label>
+                                <input type="text" class="form-control is-valid" id="total_remaining_to_be_sold" disabled>
+                                <input type="hidden" class="form-control" id="hidden_total_remaining_to_be_sold" name="total_remaining_to_be_sold" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="stock_in" class="form-label">Entrée de stock</label>
+                                <input type="text" class="form-control is-valid" id="stock_in" disabled>
+                                <input type="hidden" class="form-control" id="hidden_stock_in" name="stock_in" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="stock_out" class="form-label">Sortie de stock</label>
+                                <input type="text" class="form-control is-valid" id="stock_out" disabled>
+                                <input type="hidden" class="form-control" id="hidden_stock_out" name="stock_out" required>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <a href="{% url 'view_distribution'%}" name="button" class="btn btn-light m-0">Annuler</a>
+                            <button type="submit" name="button" class="btn bg-gradient-primary m-0 ms-2">Sauvegarder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

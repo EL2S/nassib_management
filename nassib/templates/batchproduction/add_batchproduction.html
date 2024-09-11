@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% block title %}ajouter une production par lot{% endblock %}
+{% block script %}batchproduction.js
+{% endblock %}
+{% block title1 %}Production par lot{% endblock %}
+{% block title2 %}Ajouter une production par lot{% endblock %}
+{% block title3 %}Ajouter une production par lot{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="container-fluid py-4">
+        <div class="row" id="abId0.48152076309116754">
+            <div class="col-lg-9 col-12 mx-auto" id="abId0.12338387730870526">
+                <div class="card card-body mt-4" id="abId0.5321583829375365">
+                    <h6 class="mb-0">Information sur la production par lot</h6>
+                    <p class="text-sm mb-0">Information</p>
+                    <hr class="horizontal dark my-3">
+                    {% if error_message %}
+                    <div class="alert alert-danger text-white" role="alert">
+                        {{ error_message }}
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            window.location.href = "{% url 'add_batchproduction' %}";
+                        }, 5000);
+                    </script>
+                    {% endif %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="date" class="form-label">Date</label>
+                                <input type="date" class="form-control" id="date" name="date" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="batch_no" class="form-label">Numéro de lot</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="batch_no" id="batch_no">
+
+                                    </select>
+                                    <input type="text" class="form-control" id="search_batch_no" placeholder="Recherchez une numéro de lot">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="agency" class="form-label">Agence</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="agency" id="agency">
+
+                                    </select>
+                                    <input type="text" class="form-control" id="search_agency" placeholder="Recherchez une agence">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="product" class="form-label">Production</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="product" id="product">
+
+                                    </select>
+                                    <input type="text" class="form-control" id="search_product" placeholder="Recherchez une produit">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="journal" class="form-label">Journal</label>
+                                <select class="form-select" name="journal" id="journal">
+                                    <option value="PRODUCTION">PRODUCTION</option>
+                                    <option value="BANQUE">BANQUE</option>
+                                    <option value="ACHAT">ACHAT</option>
+                                    <option value="CAISSE">CAISSE</option>
+                                    <option value="OD">OD</option>
+                                    <option value="RAN">RAN</option>
+                                    <option value="TRANSFERT">TRANSFERT</option>
+                                    <option value="VENTE">VENTE</option>
+                                </select>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="total_production" class="form-label">Production totale</label>
+                                <input type="text" class="form-control" id="total_production" name="total_production" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="debit_account" class="form-label">Compte à débiter</label>
+                                <select class="form-select" name="debit_account" id="debit_account">
+                                    {% for account in accounts %}
+                                    <option value="{{account.account}}">{{account.account }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="debit_Label" class="form-label">Libellé compte à débiter</label>
+                                <input type="text" class="form-control is-valid" id="debit_Label" disabled>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="credit_account" class="form-label">Compte à créditer</label>
+                                <select class="form-select" name="credit_account" id="credit_account">
+                                    {% for account in accounts %}
+                                    <option value="{{account.account}}">{{account.account }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="credit_Label" class="form-label">Libellé compte à créditer</label>
+                                <input type="text" class="form-control is-valid" id="credit_Label" disabled>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="total_amount" class="form-label">Montant total</label>
+                                <input type="text" class="form-control is-valid" id="total_amount" disabled>
+                                <input type="hidden" class="form-control" id="hidden_total_amount" name="total_amount" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="debit_amount" class="form-label">Débiteur Motant</label>
+                                <input type="text" class="form-control is-valid" id="debit_amount" disabled>
+                                <input type="hidden" class="form-control" id="hidden_debit_amount" name="debit_amount" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="credit_amount" class="form-label">Créditeur Motant</label>
+                                <input type="text" class="form-control is-valid" id="credit_amount" disabled>
+                                <input type="hidden" class="form-control" id="hidden_credit_amount" name="credit_amount" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="unit_material_cost" class="form-label">Coût unitaire du matériau</label>
+                                <input type="text" class="form-control is-valid" id="unit_material_cost" disabled>
+                                <input type="hidden" class="form-control" id="hidden_unit_material_cost" name="unit_material_cost" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="fixed_cost" class="form-label">Coûts fixes</label>
+                                <input type="text" class="form-control is-valid" id="fixed_cost" disabled>
+                                <input type="hidden" class="form-control" id="hidden_fixed_cost" name="fixed_cost" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="variable_cost" class="form-label">Coût variable</label>
+                                <input type="text" class="form-control is-valid" id="variable_cost" disabled>
+                                <input type="hidden" class="form-control" id="hidden_variable_cost" name="variable_cost" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="total_cost" class="form-label">Coût total</label>
+                                <input type="text" class="form-control is-valid" id="total_cost"  disabled>
+                                <input type="hidden" class="form-control" id="hidden_total_cost" name="total_cost" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="total_fixed_cost" class="form-label">Coût fixe total</label>
+                                <input type="text" class="form-control is-valid" id="total_fixed_cost" disabled>
+                                <input type="hidden" class="form-control" id="hidden_total_fixed_cost" name="total_fixed_cost" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="total_variable_cost" class="form-label">Coût variable total</label>
+                                <input type="text" class="form-control is-valid" id="total_variable_cost" disabled>
+                                <input type="hidden" class="form-control" id="hidden_total_variable_cost" name="total_variable_cost" required>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <a href="{% url 'view_batchproduction'%}" name="button" class="btn btn-light m-0">Annuler</a>
+                            <button type="submit" name="button" class="btn bg-gradient-primary m-0 ms-2">Sauvegarder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}gestion des groupes{% endblock %}
+{% block script %}group.js
+{% endblock %}
+{% block title1 %}Groupe{% endblock %}
+{% block title2 %}Liste des groupes{% endblock %}
+{% block title3 %}Liste des groupes{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                <h6>Liste des groupes</h6>
+                {% if 'auth.add_group' in user.get_all_permissions %}
+                <a href="{% url 'add_group'%}" class="btn btn-primary">
+                  <i class="fas fa-plus-circle"></i> Ajouter
+                </a> 
+                {% endif %}             
+            </div>              
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nom du groupe</th>
+                      {% if 'auth.change_group' in user.get_all_permissions or 'auth.delete_group' in user.get_all_permissions %}
+                      <th class="text-secondary opacity-7"></th>
+                      {% endif %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for group in groups %}
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{ group.name }}</h6>
+                          </div>
+                        </div>
+                      </td>
+                      {% if 'auth.change_group' in user.get_all_permissions or 'auth.delete_group' in user.get_all_permissions %}
+                      <td class="align-middle">
+                        {% if 'auth.change_group' in user.get_all_permissions%}
+                        <a href="{% url 'change_group' group.id %}" class="text-success font-weight-bold text-sm me-2" data-toggle="tooltip">
+                            <i class="fas fa-edit fixed-plugin-button-nav cursor-pointer"></i>
+                        </a>
+                        {% endif %}
+                        {% if 'auth.delete_group' in user.get_all_permissions %}
+                        <a href="javascript:;" class="text-danger font-weight-bold text-sm delete" data-id="{{ group.id }}" data-toggle="tooltip">
+                            <i class="fas fa-trash fixed-plugin-button-nav cursor-pointer"></i>
+                        </a>
+                        {% endif %}
+                      </td>
+                      {% endif %}
+                    </tr>
+                    {% empty %}
+                      <tr>
+                        <td colspan="5" class="text-center">Aucune donnée disponible</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {% if groups.has_other_pages %}
+            <div class="dataTable-bottom">
+              <nav class="dataTable-pagination">
+                <ul class="dataTable-pagination-list">
+                  {% if groups.has_previous %}
+                  <li class="pager"><a href="?page={{ groups.previous_page_number }}">‹</a></li>
+                  {% endif %}
+                  {% for num in groups.paginator.page_range %}
+                  {% if groups.number == num %}
+                  <li class="active"><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% elif num > groups.number|add:'-5' and num < groups.number|add:'5' %}
+                  <li class=""><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                  {% if groups.has_next %}
+                  <li class="pager"><a href="?page={{ groups.next_page_number }}">›</a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+            {% endif %}
+          </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+

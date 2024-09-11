@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block title %}gestion des distributions{% endblock %}
+{% block script %}distribution.js
+{% endblock %}
+{% block title1 %}Distribution{% endblock %}
+{% block title2 %}Liste des distributions{% endblock %}
+{% block title3 %}Liste des distributions{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                <h6>Liste des distributions</h6>
+                {% if 'nassib.add_distribution' in user.get_all_permissions %}
+                <div class="d-flex justify-content-between align-items-center"> 
+                    <a href="{% url 'add_distribution'%}" class="btn btn-primary">
+                        <i class="fas fa-plus-circle"></i> Ajouter
+                    </a> 
+                </div>  
+                {% endif %}             
+            </div>              
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0 custom-table">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Numéro de lot</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Initiateur</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Produit</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prix de vente</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">production totale</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sortie de stock</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Agence</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantité vendue</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Entrée de stock</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Valeur de vente</th>
+                      {% if 'nassib.delete_distribution' in user.get_all_permissions %}
+                      <th class="text-secondary opacity-7"></th>
+                      {% endif %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for distribution in distributions %}
+                    <tr>
+                        <td class="custom-td">
+                            <span class="text-secondary text-sm font-weight-bold">{{ distribution.date|date:"d F Y" }}</span>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ distribution.batch_no }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ distribution.initiator }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ distribution.product }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ distribution.selling_price }} KMF</h6>
+                        </td>
+                        <td class="custom-td">
+                          <h6 class="text-sm font-weight-bold mb-0">{{ distribution.total_production }}</h6>
+                        </td>
+                        <td class="custom-td">
+                          <h6 class="text-sm font-weight-bold mb-0">{{ distribution.stock_out }}</h6>
+                        </td>
+                        <td class="custom-td">
+                          <h6 class="text-sm font-weight-bold mb-0">{{ distribution.agency }}</h6>
+                        </td>
+                        <td class="custom-td">
+                          <h6 class="text-sm font-weight-bold mb-0">{{ distribution.quantity_sold }}</h6>
+                        </td>
+                        <td class="custom-td">
+                          <h6 class="text-sm font-weight-bold mb-0">{{ distribution.stock_in }}</h6>
+                        </td>
+                        <td class="custom-td">
+                          <h6 class="text-sm font-weight-bold mb-0">{{ distribution.sale_value }}</h6>
+                        </td>
+                        
+                        {% if 'nassib.delete_production' in user.get_all_permissions %}
+                        <td class="custom-td custom-space">
+                            {% if 'nassib.delete_distribution' in user.get_all_permissions %}
+                            <a href="javascript:;" class="text-danger font-weight-bold text-sm delete" data-id="{{ distribution.id }}" data-toggle="tooltip">
+                                <i class="fas fa-trash fixed-plugin-button-nav cursor-pointer"></i>
+                            </a>
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% empty %}
+                      <tr>
+                        <td colspan="5" class="text-center">Aucune donnée disponible</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {% if distributions.has_other_pages %}
+            <div class="dataTable-bottom">
+              <nav class="dataTable-pagination">
+                <ul class="dataTable-pagination-list">
+                  {% if distributions.has_previous %}
+                  <li class="pager"><a href="?page={{ distributions.previous_page_number }}">‹</a></li>
+                  {% endif %}
+                  {% for num in distributions.paginator.page_range %}
+                  {% if distributions.number == num %}
+                  <li class="active"><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% elif num > distributions.number|add:'-5' and num < distributions.number|add:'5' %}
+                  <li class=""><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                  {% if distributions.has_next %}
+                  <li class="pager"><a href="?page={{ distributions.next_page_number }}">›</a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+            {% endif %}
+          </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+

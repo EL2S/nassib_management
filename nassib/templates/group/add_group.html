@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}ajouter un groupe{% endblock %}
+{% block script %}group.js
+{% endblock %}
+{% block title1 %}Groupe{% endblock %}
+{% block title2 %}Ajouter un groupe{% endblock %}
+{% block title3 %}Ajouter un groupe{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="container-fluid py-4">
+        <div class="row" id="abId0.48152076309116754">
+            <div class="col-lg-9 col-12 mx-auto" id="abId0.12338387730870526">
+                <div class="card card-body mt-4" id="abId0.5321583829375365">
+                    <h6 class="mb-0">Information sur le groupe</h6>
+                    <p class="text-sm mb-0">Information</p>
+                    <hr class="horizontal dark my-3">
+                    {% if error_message %}
+                    <div class="alert alert-danger text-white" role="alert">
+                        {{ error_message }}
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            window.location.href = "{% url 'add_group' %}";
+                        }, 5000);
+                    </script>
+                    {% endif %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="name" class="form-label">Nom du groupe</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label class="form-label">Autorisations</label>
+                                <div class="groupe">
+                                    <div class="table align-items-center table-flush">
+                                        <table class="table align-items-center table-flush">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th class="form-label text-center">Autorisations utilisateur disponibles</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="groupe-tr">
+                                                    <td class="groupe-td">
+                                                        <select multiple name="aut_ch" id="aut_ch">
+                                                            {% for permission in permissions %}
+                                                            <option value="{{ permission.id }}" title="{{ permission.content_type }} | {{ permission.name }}">{{ permission.content_type }} | {{ permission.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="arrow">
+                                        <div class="icon-ti" id="move_right">
+                                            <i class="fas fa-arrow-right text-white"></i>
+                                        </div>
+                                        <div class="icon-ti space-ti" id="move_left">
+                                            <i class="fas fa-arrow-left text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div class="table align-items-center table-flush">
+                                        <table class="table align-items-center table-flush">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th class="form-label text-center">Autorisations de l’utilisateur choisies</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="groupe-tr">
+                                                    <td class="groupe-td">
+                                                        <select multiple name="aut_rem" id="aut_rem">
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <p class="form-label">Autorisations spécifiques pour cet utilisateur. Maintenez la touche « Contrôle » ou « Commande » enfoncée pour en sélectionner plusieurs.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <a href="{% url 'view_group'%}" name="button" class="btn btn-light m-0">Annuler</a>
+                            <button type="submit" name="button" id="add" class="btn bg-gradient-primary m-0 ms-2">Sauvegarder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

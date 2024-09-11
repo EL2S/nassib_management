@@ -1,0 +1,407 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="{% static 'img/logo/nassib.png' %}">
+  <link rel="icon" type="image/png" href="{% static 'img/logo/nassib.png' %}">
+  <title>
+    Nassib | {% block title %}{% endblock %}
+  </title>
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <!-- Nucleo Icons -->
+  <link href="{% static 'css/all.css' %}" rel="stylesheet" />
+  <link href="{% static 'css/all.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'css/nucleo-icons.css' %}" rel="stylesheet" />
+  <link href="{% static 'css/nucleo-svg.css' %}" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <link href="{% static 'css/nucleo-svg.css' %}" rel="stylesheet" />
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href="{% static 'css/soft-ui-dashboard.css' %}" rel="stylesheet" />
+  <script src="{% static 'js/sidebar.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/sweetalert2.min.css' %}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+</head>
+<body class="g-sidenav-show  bg-gray-100">
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
+        <div class="sidenav-header">
+          <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+          <a class="navbar-brand m-0" href="javascript:;">
+            <img src="{% static 'img/logo/nassib.png' %}" class="navbar-brand-img h-100" alt="main_logo">
+            <span class="ms-1 font-weight-bold">Nassib Gestion</span>
+          </a>
+        </div>
+        <hr class="horizontal dark mt-0">
+        <div class="collapse navbar-collapse  w-auto  max-height-vh-100 h-100" id="sidenav-collapse-main">
+          <ul class="navbar-nav">
+            {% if 'auth.view_user' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_user' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                  <i class="fas fa-user fa-xs"></i>
+                </div>
+                </div>                  
+                <span class="nav-link-text ms-1">Utilisateur</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'auth.view_group' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_group' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-users fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Groupe</span>
+              </a>
+            </li>
+            {% endif %}            
+            {% if 'nassib.view_stockglobal' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_stockglobal' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-cubes fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Stock nassib</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_stockagency' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_stockagency' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-cubes fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Stock agence</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_achat' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_achat' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-shopping-cart fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Achat</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_transfer' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_transfer' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-truck fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Transfert</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_validation' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-check fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">validation</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_ventemarchandises' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_ventemarchandises' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-shopping-cart fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Vente Marchandise</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_comptavm' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_comptavm' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-box-open fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Comptabilité marchandises</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_provider' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_provider' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-briefcase fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Fournisseur</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_product' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_product' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-box fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Produit</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_account' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_account' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-folder fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Compte OHADA</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_agency' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_agency' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-building fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Agence</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_production' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_production' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-cogs fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Production</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_batchproduction' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_batchproduction' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-calculator fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Production par lot</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_finishedproduction' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_finishedproduction' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-check-circle fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Production terminée</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_distribution' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_distribution' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-box fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Distribution</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_comptafp' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_comptafp' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-boxes fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Comptabilité Produits</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_salescontrol' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_salescontrol' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-chart-line fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Contrôle vente</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_comptapos' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_comptapos' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-cash-register fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Comptabilité Pos</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_cashbank' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_cashbank' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-piggy-bank fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Caisse de banque</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_othersrenewed' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_othersrenewed' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-redo fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Autres à nouveaux</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_consolidation' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_consolidation' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-chart-pie fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Consolidation</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if 'nassib.view_trialbalance' in user.get_all_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_trialbalance' %}">
+                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <div class="icon-i">
+                    <i class="fas fa-balance-scale fa-xs"></i>
+                  </div>
+                </div>
+                <span class="nav-link-text ms-1">Trial Balance</span>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </aside>
+      <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
+            <div class="container-fluid py-1 px-3">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                  <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">{% block title1 %}{% endblock %}</a></li>
+                  <li class="breadcrumb-item text-sm text-dark active" aria-current="page">{% block title2 %}{% endblock %}</li>
+                </ol>
+                <h6 class="font-weight-bolder mb-0">{% block title3 %}{% endblock %}</h6>
+              </nav>
+              <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                <form class="ms-md-auto pe-md-3 d-flex align-items-center" method="POST" id="search-form">
+                  {% csrf_token %}
+                  <div class="input-group">
+                    <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                    <input type="text" class="form-control" placeholder="Recherchez..." name="search" value="{{ search_query }}" id="search-input">
+                  </div>
+                </form>
+                
+                <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                  var searchInput = document.getElementById("search-input");
+                  var length = searchInput.value.length;
+                  searchInput.addEventListener("input", function() {
+                    document.getElementById("search-form").submit();
+                  });
+                
+                  searchInput.addEventListener("focus", function() {
+                    searchInput.setSelectionRange(length, length);
+                  });
+                  if(length>0){
+                    searchInput.focus();
+                  }
+                });
+                </script>                              
+                <ul class="navbar-nav  justify-content-end">
+                  <li class="nav-item d-flex align-items-center">
+                    <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
+                      <i class="fa fa-user me-sm-1"></i>
+                      <span class="d-sm-inline d-none">{{username}}</span>
+                    </a>
+                  </li>
+                  <li class="nav-item px-3 d-flex align-items-center">
+                    <a href="{% url 'logout'%}" class="nav-link text-body p-0">
+                        <i class="fas fa-sign-out-alt fixed-plugin-button-nav cursor-pointer"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+          {% block content %}{% endblock %}
+      </main>
+    <script src="{% static 'js/all.js' %}"></script>
+    <script src="{% static 'js/all.min.js' %}"></script>
+    <script src="{% static 'js/core/popper.min.js' %}"></script>
+    <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/plugins/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'js/plugins/smooth-scrollbar.min.js' %}"></script>
+    <script src="% static 'js/plugins/sweetalert.min.js' %}" aria-hidden="true"></script>
+    <script>
+      var win = navigator.platform.indexOf('Win') > -1;
+      if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+          damping: '0.5'
+        }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+      }
+    </script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="{% static 'js/soft-ui-dashboard.min.js' %}"></script>
+    <script src="{% static 'js/' %}{% block script %}{% endblock %}"></script>
+    <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+
+</body>
+  
+</html>

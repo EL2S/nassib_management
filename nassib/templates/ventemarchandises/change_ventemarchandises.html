@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block title %}changer le vente{% endblock %}
+{% block script %}ventemarchandises.js
+{% endblock %}
+{% block title1 %}Vente{% endblock %}
+{% block title2 %}Changer le vente{% endblock %}
+{% block title3 %}Changer le vente{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="container-fluid py-4">
+        <div class="row" id="abId0.48152076309116754">
+            <div class="col-lg-9 col-12 mx-auto" id="abId0.12338387730870526">
+                <div class="card card-body mt-4" id="abId0.5321583829375365">
+                    <h6 class="mb-0">Information sur la vente</h6>
+                    <p class="text-sm mb-0">Information</p>
+                    <hr class="horizontal dark my-3">
+                    {% if error_message %}
+                    <div class="alert alert-danger text-white" role="alert">
+                        {{ error_message }}
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            window.location.href = "{% url 'change_ventemarchandises' ventemarchandise.id%}";
+                        }, 5000);
+                    </script>
+                    {% endif %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        {% if ventemarchandise %}
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="date" class="form-label">Date</label>
+                                <input type="date" class="form-control" id="date" name="date" value="{{ventemarchandise.date|date:'Y-m-d'}}" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="customer" class="form-label">Client</label>
+                                <input type="text" class="form-control" id="customer" name="customer" value="{{ventemarchandise.customer}}" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="agency" class="form-label">Agence</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="agency" id="agency">
+                                        {% for agency in agencies %}
+                                        <option value="{{agency.agency}}" {% if ventemarchandise.agency == agency.agency %} selected {% endif %}>{{agency.agency }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <input type="text" class="form-control" id="search_agency" placeholder="Recherchez une agence">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="ingredient" class="form-label">Ingredient</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="ingredient" id="ingredient">
+                                        
+                                    </select>
+                                    <input type="text" class="form-control" id="search_ingredient" placeholder="Recherchez une ingredient">
+                                </div>
+                                <input type="hidden" class="form-control" id="hiddenagency" value="{{ventemarchandise.ingredient}}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="avg_price" class="form-label">Prix moyen</label>
+                                <input type="text" class="form-control is-valid" id="avg_price" name="avg_price" disabled>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="quantity" class="form-label">Quantité</label>
+                                <input type="text" class="form-control" id="quantity" name="quantity" value="{{ventemarchandise.quantity}}" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="selling_price" class="form-label">Prix de vente</label>
+                                <input type="text" class="form-control" id="selling_price" name="selling_price" value="{{ventemarchandise.selling_price}}" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="cost_of_sales" class="form-label">Coût des ventes</label>
+                                <input type="text" class="form-control is-valid" id="cost_of_sales" value="{{ventemarchandise.cost_of_sales}}"  disabled>
+                                <input type="hidden" class="form-control" id="hidden_cost_of_sales" name="cost_of_sales" value="{{ventemarchandise.cost_of_sales}}" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="vante_marchandises" class="form-label">Vente marchandises</label>
+                                <input type="text" class="form-control is-valid" id="vante_marchandises" value="{{ventemarchandise.vante_marchandises}}" disabled>
+                                <input type="hidden" class="form-control" id="hidden_vante_marchandises" name="vante_marchandises" value="{{ventemarchandise.vante_marchandises}}" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="marge_brute" class="form-label">Marge brute</label>
+                                <input type="text" class="form-control is-valid" id="marge_brute" value="{{ventemarchandise.marge_brute}}" disabled>
+                                <input type="hidden" class="form-control" id="hidden_marge_brute" name="marge_brute" value="{{ventemarchandise.marge_brute}}" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="stock_out" class="form-label">Entrée de stock</label>
+                                <input type="text" class="form-control is-valid" id="stock_out" value="{{ventemarchandise.stock_out}}" disabled>
+                                <input type="hidden" class="form-control" id="hidden_stock_out" name="stock_out" value="{{ventemarchandise.stock_out}}" required>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="d-flex justify-content-end mt-4">
+                            <a href="{% url 'view_ventemarchandises'%}" name="button" class="btn btn-light m-0">Annuler</a>
+                            <button type="submit" name="button" class="btn bg-gradient-primary m-0 ms-2">Sauvegarder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

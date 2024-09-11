@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}changer le produit{% endblock %}
+{% block script %}product.js
+{% endblock %}
+{% block title1 %}Produit{% endblock %}
+{% block title2 %}Changer le  produit{% endblock %}
+{% block title3 %}Changer le  produit{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="container-fluid py-4">
+        <div class="row" id="abId0.48152076309116754">
+            <div class="col-lg-9 col-12 mx-auto" id="abId0.12338387730870526">
+                <div class="card card-body mt-4" id="abId0.5321583829375365">
+                    <h6 class="mb-0">Information sur le produit</h6>
+                    <p class="text-sm mb-0">Information</p>
+                    <hr class="horizontal dark my-3">
+                    {% if error_message %}
+                    <div class="alert alert-danger text-white" role="alert">
+                        {{ error_message }}
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            window.location.href = "{% url 'change_product' %}";
+                        }, 5000);
+                    </script>
+                    {% endif %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        {% if product %}
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="item" class="form-label">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Article</label>
+                                <input type="text" class="form-control" id="item" name="item" value="{{product.item}}" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="price" class="form-label">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prix</label>
+                                <input type="text" class="form-control" id="price" name="price" value="{{product.price}}" required>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="d-flex justify-content-end mt-4">
+                            <a href="{% url 'view_product'%}" name="button" class="btn btn-light m-0">Annuler</a>
+                            <button type="submit" name="button" id="add" class="btn bg-gradient-primary m-0 ms-2">Sauvegarder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

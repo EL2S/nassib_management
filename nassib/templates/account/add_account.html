@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}ajouter un compte OHADA{% endblock %}
+{% block script %}account.js
+{% endblock %}
+{% block title1 %}Compte OHADA{% endblock %}
+{% block title2 %}Ajouter un compte OHADA{% endblock %}
+{% block title3 %}Ajouter un compte OHADA{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="container-fluid py-4">
+        <div class="row" id="abId0.48152076309116754">
+            <div class="col-lg-9 col-12 mx-auto" id="abId0.12338387730870526">
+                <div class="card card-body mt-4" id="abId0.5321583829375365">
+                    <h6 class="mb-0">Information sur le compte OHADA</h6>
+                    <p class="text-sm mb-0">Information</p>
+                    <hr class="horizontal dark my-3">
+                    {% if error_message %}
+                    <div class="alert alert-danger text-white" role="alert">
+                        {{ error_message }}
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            window.location.href = "{% url 'add_account' %}";
+                        }, 5000);
+                    </script>
+                    {% endif %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="account" class="form-label">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Compte</label>
+                                <input type="text" class="form-control" id="account" name="account" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="Label" class="form-label">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Libelle</label>
+                                <input type="text" class="form-control" id="Label" name="Label" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="family" class="form-label">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Famille</label>
+                                <input type="number" class="form-control" id="family" name="family" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="classe" class="form-label">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Classe</label>
+                                <input type="number" class="form-control" id="classe" name="classe" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="OHADA_Code" class="form-label">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">OHADA_Code</label>
+                                <input type="text" class="form-control" id="OHADA_Code" name="OHADA_Code" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="note" class="form-label">
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Note</label>
+                                <input type="text" class="form-control" id="note" name="note" required>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <a href="{% url 'view_account'%}" name="button" class="btn btn-light m-0">Annuler</a>
+                            <button type="submit" name="button" id="add" class="btn bg-gradient-primary m-0 ms-2">Sauvegarder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,268 @@
+{% extends 'base.html' %}
+{% block title %}geestion des consolidations{% endblock %}
+{% block script %}consolidation.js
+{% endblock %}
+{% block title1 %}Consolidation{% endblock %}
+{% block title2 %}Liste des consolidations{% endblock %}
+{% block title3 %}Liste des consolidations{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                <h6>Liste des consolidations</h6>
+                <a href="{% url 'consolidation'%}" class="btn btn-primary">
+                  <i class="fas fa-chart-pie"></i> Consolidation
+                </a>          
+            </div>              
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0 custom-table">
+                    <thead>
+                        <tr>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Agence</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Département</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Numéro de lot</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type de produit</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Produit</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ingrédient</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantité</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stock entrée</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stock sortie</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prix unitaire</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Montant total</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Montant</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Compte à débit</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Montant à débit</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Compte à créditer</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Montant à créditer</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Journal</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Référence</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fournisseur</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bénéficiaire</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Initiateur</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Client</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Coût des ventes</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prix de vente</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Vente marchandises</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Marge brute</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mode de paiement</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Coût fixe</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Coût variable</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Coût total</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Coût fixe total</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Coût variable total</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Produits endommagés</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Don</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Solde d'ouverture</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ventes réalisées</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total dû</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Encaissement</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ventes à crédit</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stock de clôture</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Encaissement total</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Différence d'encaissement</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No BL</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantité émise</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Montant émis</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantité reçue</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Écart de quantité</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Détail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for consolidation in consolidations %}
+                        <tr>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.date }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.agency }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.department }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.batch_no }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.product_type }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.product }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.ingredient }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.quantity }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.stock_in }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.stock_out }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.unit_price }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.total_amount }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.amount }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.debit_account }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.debit_amount }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.credit_account }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.credit_amount }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.journal }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.reference }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.supplier }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.beneficiary }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.initiator }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.client }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.sales_cost }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.sales_price }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.goods_sold }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.gross_margin }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.payment_method }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.fixed_cost }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.variable_cost }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.total_cost }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.total_fixed_cost }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.total_variable_cost }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.damaged_goods }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.donation }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.total }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.opening_balance }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.sales_made }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.total_due }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.collection }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.credit_sales }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.closing_stock }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.total_collection }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.collection_difference }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.bl_no }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.issued_quantity }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.issued_amount }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.received_quantity }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.quantity_difference }}</h6>
+                          </td>
+                          <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ consolidation.detail }}</h6>
+                          </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                          <td colspan="54" class="text-center">
+                            <h6 class="text-sm font-weight-bold mb-0">Aucune donnée disponible</h6>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>                      
+                      
+                </table>                  
+              </div>
+            </div>
+            {% if users.has_other_pages %}
+            <div class="dataTable-bottom">
+              <nav class="dataTable-pagination">
+                <ul class="dataTable-pagination-list">
+                  {% if users.has_previous %}
+                  <li class="pager"><a href="?page={{ users.previous_page_number }}">‹</a></li>
+                  {% endif %}
+                  {% for num in users.paginator.page_range %}
+                  {% if users.number == num %}
+                  <li class="active"><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% elif num > users.number|add:'-5' and num < users.number|add:'5' %}
+                  <li class=""><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                  {% if users.has_next %}
+                  <li class="pager"><a href="?page={{ users.next_page_number }}">›</a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+            {% endif %}
+          </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+{% block title %}changer l'utilisateur{% endblock %}
+{% block script %}user.js
+{% endblock %}
+{% block title1 %}Utilisateur{% endblock %}
+{% block title2 %}Canger l'utilisateur{% endblock %}
+{% block title3 %}Canger l'utilisateur{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="container-fluid py-4">
+        <div class="row" id="abId0.48152076309116754">
+            <div class="col-lg-9 col-12 mx-auto" id="abId0.12338387730870526">
+                <div class="card card-body mt-4" id="abId0.5321583829375365">
+                    <h6 class="mb-0">Information sur l'utilisateur</h6>
+                    <p class="text-sm mb-0">Information</p>
+                    <hr class="horizontal dark my-3">
+                    {% if error_message %}
+                    <div class="alert alert-danger text-white" role="alert">
+                        {{ error_message }}
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            window.location.href = "{% url 'add_user' %}";
+                        }, 5000);
+                    </script>
+                    {% endif %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        {% if user_change %}
+                        <div class="row mb-3">
+
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="username" class="form-label">Nom d'utilisateur</label>
+                                <input type="text" class="form-control" id="username" name="username" value="{{user_change.username}}" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="username" class="form-label">Mot de passe</label>
+                                <div class="form-password">
+                                    <label class="form-label">Algorithme :</label>
+                                    <p class="form-label label-space">pbkdf2_sha256</p>
+                                    <label class="form-label label-space">Itérations :</label>
+                                    <p class="form-label label-space">720000</p>
+                                    <label class="form-label label-space">Sel :</label>
+                                    <p class="form-label">fEfuOT****************</p>
+                                    <label class="form-label label-space">Hachage :</label>
+                                    <p class="form-label label-space">n2Gx4L**************************************</p>
+                                </div>
+                                <div class="form-password">
+                                    <p class="form-label">Les mots de passe bruts ne sont pas stockés, il n’y a donc aucun moyen de voir le mot de passe de cet utilisateur, mais vous pouvez modifier le mot de passe à l’aide de <a href="{% url 'change_password' user_change.id %}" class="text-primary">ce formulaire.</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="first_name" class="form-label">Prénom</label>
+                                <input type="text" class="form-control" name="first_name" id="first_name" value="{{ user_change.first_name }}" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="last_name" class="form-label">Nom</label>
+                                <input type="text" class="form-control" name="last_name" id="last_name" value="{{ user_change.last_name }}" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="email" class="form-label">Adresse e-mail</label>
+                                <input type="text" class="form-control" name="email" id="email" value="{{ user_change.email }}"required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label class="form-label">Autorisations</label>
+                                <div class="form-check form-switch ms-1">
+                                    <input class="form-check-input" type="checkbox" id="is_active" data-type="warning" id="is_active" {% if user_change.is_active %} checked {% endif %} name="is_active" data-title="Warning" data-icon="ni ni-bell-55">
+                                    <label class="form-check-label" for="is_active">Actif</label>
+                                </div>
+                                <p class="form-label">Indique si cet utilisateur doit être considéré comme actif. Désélectionnez cette option au lieu de supprimer des comptes.</p>
+                                <div class="form-check form-switch ms-1">
+                                    <input class="form-check-input" type="checkbox" id="is_superuser" data-type="warning" id="is_superuser" {% if user_change.is_superuser %} checked {% endif %} name="is_superuser" data-title="Warning" data-icon="ni ni-bell-55">
+                                    <label class="form-check-label" for="is_actis_superuserive">Statut de super-utilisateur</label>
+                                </div>
+                                <p class="form-label">Indique que cet utilisateur dispose de toutes les autorisations sans les attribuer explicitement.</p>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label class="form-label">Groupe</label>
+                                <div class="groupe">
+                                    <div class="table align-items-center">
+                                        <table class="table align-items-center">
+                                            <thead>
+                                                <tr>
+                                                    <th class="form-label text-center">Groupes disponibles</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="groupe-tr">
+                                                    <td class="groupe-td">
+                                                        <select multiple name="group_ch" id="group_ch">
+                                                            {% for group in groups %}
+                                                            <option value="{{ group.id }}">{{ group.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="arrow">
+                                        <div class="icon-ti" id="group_move_right">
+                                            <i class="fas fa-arrow-right text-white"></i>
+                                        </div>
+                                        <div class="icon-ti space-ti" id="group_move_left">
+                                            <i class="fas fa-arrow-left text-white"></i>
+                                        </div>
+                                    </div>                                    
+                                    <div class="table align-items-center table-flush">
+                                        <table class="table align-items-center">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th class="form-label text-center">Groupes sélectionnés</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="groupe-tr">
+                                                    <td class="groupe-td">
+                                                        <select multiple name="group_rem" id="group_rem">
+                                                            {% for group in user_groups %}
+                                                            <option value="{{ group.id }}">{{ group.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <p class="form-label">Les groupes auxquels cet utilisateur appartient. Un utilisateur obtiendra toutes les autorisations accordées à chacun de ses groupes. Maintenez la touche « Contrôle » ou « Commande » enfoncée pour en sélectionner plusieurs.</p>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label class="form-label">Autorisations de l’utilisateur</label>
+                                <div class="groupe">
+                                    <div class="table align-items-center table-flush">
+                                        <table class="table align-items-center table-flush">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th class="form-label text-center">Autorisations utilisateur disponibles</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="groupe-tr">
+                                                    <td class="groupe-td">
+                                                        <select multiple name="aut_ch" id="aut_ch">
+                                                            {% for permission in permissions %}
+                                                            <option value="{{ permission.id }}" title="{{ permission.content_type }} | {{ permission.name }}">{{ permission.content_type }} | {{ permission.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="arrow">
+                                        <div class="icon-ti" id="move_right">
+                                            <i class="fas fa-arrow-right text-white"></i>
+                                        </div>
+                                        <div class="icon-ti space-ti" id="move_left">
+                                            <i class="fas fa-arrow-left text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div class="table align-items-center table-flush">
+                                        <table class="table align-items-center table-flush">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th class="form-label text-center">Autorisations de l’utilisateur choisies</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="groupe-tr">
+                                                    <td class="groupe-td">
+                                                        <select multiple name="aut_rem" id="aut_rem">
+                                                            {% for permission in user_permissions %}
+                                                            <option value="{{ permission.id }}" title="{{ permission.content_type }} | {{ permission.name }}">{{ permission.content_type }} | {{ permission.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <p class="form-label">Autorisations spécifiques pour cet utilisateur. Maintenez la touche « Contrôle » ou « Commande » enfoncée pour en sélectionner plusieurs.</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="d-flex justify-content-end mt-4">
+                            <a href="{% url 'view_user'%}" name="button" class="btn btn-light m-0">Annuler</a>
+                            <button type="submit" id="add" name="button" class="btn bg-gradient-primary m-0 ms-2">Sauvegarder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

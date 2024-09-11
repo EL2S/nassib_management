@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% block title %}ajouter un achat{% endblock %}
+{% block script %}achat.js
+{% endblock %}
+{% block title1 %}Achat{% endblock %}
+{% block title2 %}Ajouter un achat{% endblock %}
+{% block title3 %}Ajouter un achat{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="container-fluid py-4">
+        <div class="row" id="abId0.48152076309116754">
+            <div class="col-lg-9 col-12 mx-auto" id="abId0.12338387730870526">
+                <div class="card card-body mt-4" id="abId0.5321583829375365">
+                    <h6 class="mb-0">Information sur l'achat</h6>
+                    <p class="text-sm mb-0">Information</p>
+                    <hr class="horizontal dark my-3">
+                    {% if error_message %}
+                    <div class="alert alert-danger text-white" role="alert">
+                        {{ error_message }}
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            window.location.href = "{% url 'add_achat' %}";
+                        }, 5000);
+                    </script>
+                    {% endif %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="reference" class="form-label">Référence</label>
+                                <input type="text" class="form-control" id="reference" name="reference" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="department" class="form-label">Département</label>
+                                <select class="form-select" name="department" id="department">
+                                    <option value="Stockage" title="Stockage">Stockage</option>
+                                    <option value="Production" title="Production">Production</option>
+                                    <option value="Produit finis" title="Produit finis">Produit finis</option>
+                                    <option value="Pointe de vente" title="Pointe de vente"> Pointe de vente</option>
+                                    <option value="Administration" title="Administration"> Administration</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="agency" class="form-label">Agence</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="agency" id="agency">
+                                        {% for agency in agencies %}
+                                        <option value="{{agency.agency}}">{{agency.agency }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <input type="text" class="form-control" id="search_agency" placeholder="Recherchez une agence">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="ingredient" class="form-label">Ingredient</label>
+                                <input type="text" class="form-control" id="ingredient" name="ingredient" required>
+                                <ul id="ingredient-list" class="list-group"></ul>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="provider" class="form-label">Fournisseur</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="provider" id="provider">
+                                        {% for provider in providers %}
+                                        <option value="{{provider.name_provider}}">{{provider.name_provider }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <input type="text" class="form-control" id="search_provider" placeholder="Recherchez une fournisseur">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="quantity" class="form-label">Quantité</label>
+                                <input type="text" class="form-control" id="quantity" name="quantity" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="unit_price" class="form-label">Prix unitaire</label>
+                                <input type="text" class="form-control" id="unit_price" name="unit_price" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="journal" class="form-label">Journal</label>
+                                <select class="form-select" name="journal" id="journal">
+                                    <option value="PRODUCTION">PRODUCTION</option>
+                                    <option value="BANQUE">BANQUE</option>
+                                    <option value="ACHAT">ACHAT</option>
+                                    <option value="CAISSE">CAISSE</option>
+                                    <option value="OD">OD</option>
+                                    <option value="RAN">RAN</option>
+                                    <option value="TRANSFERT">TRANSFERT</option>
+                                    <option value="VENTE">VENTE</option>
+                                </select>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="amount" class="form-label">Motant</label>
+                                <input type="text" class="form-control is-valid" id="amount" disabled>
+                                <input type="hidden" class="form-control" id="hidden_amount" name="amount" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="debit_account" class="form-label">Compte à débiter</label>
+                                <select class="form-select" name="debit_account" id="debit_account">
+                                    {% for account in accounts %}
+                                    <option value="{{account.account}}">{{account.account }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="debit_Label" class="form-label">Libellé compte à débiter</label>
+                                <input type="text" class="form-control is-valid" id="debit_Label" disabled>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="initiator" class="form-label">Initiateur</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="initiator" id="initiator">
+                                        {% for agency in agencies %}
+                                        <option value="{{agency.agency}}">{{agency.agency }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <input type="text" class="form-control" id="search_initiator" placeholder="Recherchez une initiateur">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="credit_account" class="form-label">Compte à créditer</label>
+                                <select class="form-select" name="credit_account" id="credit_account">
+                                    {% for account in accounts %}
+                                    <option value="{{account.account}}">{{account.account }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="credit_Label" class="form-label">Libellé compte à créditer</label>
+                                <input type="text" class="form-control is-valid" id="credit_Label" disabled>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="beneficiary" class="form-label">Bénéficiaire</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="beneficiary" id="beneficiary">
+                                        {% for agency in agencies %}
+                                        <option value="{{agency.agency}}">{{agency.agency }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <input type="text" class="form-control" id="search_beneficiary" placeholder="Recherchez une bénéficiaire">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="debit_amount" class="form-label">Débiteur Motant</label>
+                                <input type="text" class="form-control is-valid" id="debit_amount" disabled>
+                                <input type="hidden" class="form-control" id="hidden_debit_amount" name="debit_amount" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="credit_amount" class="form-label">Créditeur Motant</label>
+                                <input type="text" class="form-control is-valid" id="credit_amount" disabled>
+                                <input type="hidden" class="form-control" id="hidden_credit_amount" name="credit_amount" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="payment_method" class="form-label">Mode de Paiement</label>
+                                <select class="form-select" name="payment_method" id="payment_method">
+                                    <option value="Comptant">Comptant</option>
+                                    <option value="Credit">Credit</option>
+                                    <option value="Donation">Donation</option>
+                                    <option value="Autre">Autre</option>
+                                </select>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="stock_in" class="form-label">Entrée de stock</label>
+                                <input type="text" class="form-control is-valid" id="stock_in" disabled>
+                                <input type="hidden" class="form-control" id="hidden_stock_in" name="stock_in" required>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <a href="{% url 'view_achat'%}" name="button" class="btn btn-light m-0">Annuler</a>
+                            <button type="submit" name="button" class="btn bg-gradient-primary m-0 ms-2">Sauvegarder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

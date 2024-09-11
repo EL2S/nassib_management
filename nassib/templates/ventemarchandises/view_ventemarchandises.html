@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block title %}vente Marchandise{% endblock %}
+{% block script %}ventemarchandises.js
+{% endblock %}
+{% block title1 %}Vente{% endblock %}
+{% block title2 %}Liste des ventes marchandises{% endblock %}
+{% block title3 %}Liste des ventes marchandises{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                <h6>Liste des ventes marchandises</h6>
+                {% if 'nassib.add_ventemarchandises' in user.get_all_permissions %}
+                <div class="d-flex justify-content-between align-items-center"> 
+                    <a href="{% url 'add_ventemarchandises'%}" class="btn btn-primary">
+                        <i class="fas fa-plus-circle"></i> Ajouter
+                    </a> 
+                </div>  
+                {% endif %}             
+            </div>              
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0 custom-table">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Agence</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Client</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ingredient</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantité</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Coût des ventes</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prix de vente</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Vente marchandises</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Marge brute</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sortie de stock</th>
+                      {% if 'nassib.change_ventemarchandises' in user.get_all_permissions or 'nassib.delete_ventemarchandises' in user.get_all_permissions %}
+                      <th class="text-secondary opacity-7"></th>
+                      {% endif %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for vente in ventemarchandises %}
+                    <tr>
+                        <td class="custom-td">
+                            <h6 class="text-secondary text-sm font-weight-bold mb-0">{{ vente.date|date:"d F Y" }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ vente.agency }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ vente.customer }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ vente.ingredient }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ vente.quantity }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ vente.cost_of_sales }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ vente.selling_price }} KMF</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ vente.vante_marchandises }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ vente.marge_brute }}</h6>
+                        </td>
+                        <td class="custom-td">
+                            <h6 class="text-sm font-weight-bold mb-0">{{ vente.stock_out }}</h6>
+                        </td>
+                        {% if 'nassib.change_ventemarchandises' in user.get_all_permissions or 'nassib.delete_ventemarchandises' in user.get_all_permissions %}
+                        <td class="custom-td custom-space">
+                            {% if 'nassib.change_ventemarchandises' in user.get_all_permissions%}
+                            <a href="{% url 'change_ventemarchandises' vente.id %}" class="text-success font-weight-bold text-sm me-2" data-toggle="tooltip">
+                                <i class="fas fa-edit fixed-plugin-button-nav cursor-pointer"></i>
+                            </a>
+                            {% endif %}
+                            {% if 'nassib.delete_ventemarchandises' in user.get_all_permissions %}
+                            <a href="javascript:;" class="text-danger font-weight-bold text-sm delete" data-id="{{ vente.id }}" data-toggle="tooltip">
+                                <i class="fas fa-trash fixed-plugin-button-nav cursor-pointer"></i>
+                            </a>
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% empty %}
+                      <tr>
+                        <td colspan="5" class="text-center">Aucune donnée disponible</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {% if ventemarchandises.has_other_pages %}
+            <div class="dataTable-bottom">
+              <nav class="dataTable-pagination">
+                <ul class="dataTable-pagination-list">
+                  {% if ventemarchandises.has_previous %}
+                  <li class="pager"><a href="?page={{ ventemarchandises.previous_page_number }}">‹</a></li>
+                  {% endif %}
+                  {% for num in ventemarchandises.paginator.page_range %}
+                  {% if ventemarchandises.number == num %}
+                  <li class="active"><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% elif num > ventemarchandises.number|add:'-5' and num < ventemarchandises.number|add:'5' %}
+                  <li class=""><a href="?page={{ num }}" >{{ num }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                  {% if ventemarchandises.has_next %}
+                  <li class="pager"><a href="?page={{ ventemarchandises.next_page_number }}">›</a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+            {% endif %}
+          </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+

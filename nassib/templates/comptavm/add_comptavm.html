@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block title %}ajouter la comptabilité pour une vente de marchandise{% endblock %}
+{% block script %}comptavm.js
+{% endblock %}
+{% block title1 %}Comptabilité{% endblock %}
+{% block title2 %}Ajouter la comptabilité pour une vente de marchandise{% endblock %}
+{% block title3 %}Ajouter la comptabilité pour une vente de marchandise{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="container-fluid py-4">
+        <div class="row" id="abId0.48152076309116754">
+            <div class="col-lg-9 col-12 mx-auto" id="abId0.12338387730870526">
+                <div class="card card-body mt-4" id="abId0.5321583829375365">
+                    <h6 class="mb-0">Information sur la comptabilité</h6>
+                    <p class="text-sm mb-0">Information</p>
+                    <hr class="horizontal dark my-3">
+                    {% if error_message %}
+                    <div class="alert alert-danger text-white" role="alert">
+                        {{ error_message }}
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            window.location.href = "{% url 'add_comptavm' %}";
+                        }, 5000);
+                    </script>
+                    {% endif %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="date" class="form-label">Date</label>
+                                <input type="date" class="form-control" id="date" name="date" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="customer" class="form-label">Client</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="customer" id="customer">
+
+                                    </select>
+                                    <input type="text" class="form-control" id="search_customer" placeholder="Recherchez une client">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="agency" class="form-label">Agence</label>
+                                <div class="input-group">
+                                    <select class="form-select" name="agency" id="agency">
+
+                                    </select>
+                                    <input type="text" class="form-control" id="search_agency" placeholder="Recherchez une agence">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-12">
+                                <label for="vante_marchandises" class="form-label">Vente marchandises</label>
+                                <input type="text" class="form-control is-valid" id="vante_marchandises" disabled>
+                                <input type="hidden" class="form-control" id="hidden_vante_marchandises" name="vante_marchandises" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="debit_account" class="form-label">Compte à débiter</label>
+                                <select class="form-select" name="debit_account" id="debit_account">
+                                    {% for account in accounts %}
+                                    <option value="{{account.account}}">{{account.account }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="debit_Label" class="form-label">Libellé compte à débiter</label>
+                                <input type="text" class="form-control is-valid" id="debit_Label" disabled>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="credit_account" class="form-label">Compte à créditer</label>
+                                <select class="form-select" name="credit_account" id="credit_account">
+                                    {% for account in accounts %}
+                                    <option value="{{account.account}}">{{account.account }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="credit_Label" class="form-label">Libellé compte à créditer</label>
+                                <input type="text" class="form-control is-valid" id="credit_Label" disabled>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-6">
+                                <label for="debit_amount" class="form-label">Débiteur Motant</label>
+                                <input type="text" class="form-control is-valid" id="debit_amount" disabled>
+                                <input type="hidden" class="form-control" id="hidden_debit_amount" name="debit_amount" required>
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <label for="credit_amount" class="form-label">Créditeur Motant</label>
+                                <input type="text" class="form-control is-valid" id="credit_amount" disabled>
+                                <input type="hidden" class="form-control" id="hidden_credit_amount" name="credit_amount" required>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <a href="{% url 'view_comptavm'%}" name="button" class="btn btn-light m-0">Annuler</a>
+                            <button type="submit" name="button" class="btn bg-gradient-primary m-0 ms-2">Sauvegarder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
